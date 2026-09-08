@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administración | Kruger Johana</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+<header class="admin-header">
+  <span class="brand">Kruger Johana · Admin</span>
+  <button id="logout-btn">Cerrar sesión</button>
+</header>
+
+<div class="admin-wrap wide">
+  <div class="admin-card">
+    <div class="admin-section">
+      <h2>Imagen del Hero (portada)</h2>
+      <p class="hint">Se usa en la foto grande de la página de inicio. Recomendado: foto vertical, mínimo 900×1125px.</p>
+      <img id="hero-preview" class="preview-img" src="/assets/johana-kruger-hero.jpg" alt="Vista previa de la imagen del hero">
+      <div class="file-row">
+        <input type="file" id="hero-file" accept="image/*">
+        <button class="admin-btn" style="width:auto;padding:10px 20px;" id="hero-upload-btn">Subir y publicar</button>
+      </div>
+      <p class="admin-msg" id="hero-msg"></p>
+    </div>
+
+    <div class="admin-section">
+      <h2>Imagen de "Quiénes somos"</h2>
+      <p class="hint">Se usa en la sección Quiénes somos de la página de inicio.</p>
+      <img id="about-preview" class="preview-img" src="/assets/estatua-justicia.jpg" alt="Vista previa de la imagen de Quiénes somos">
+      <div class="file-row">
+        <input type="file" id="about-file" accept="image/*">
+        <button class="admin-btn" style="width:auto;padding:10px 20px;" id="about-upload-btn">Subir y publicar</button>
+      </div>
+      <p class="admin-msg" id="about-msg"></p>
+    </div>
+
+    <div class="admin-section">
+      <h2>Textos del Hero</h2>
+      <p class="hint">Título y subtítulo que aparecen en la portada del sitio.</p>
+      <div class="field">
+        <label for="headline">Título</label>
+        <input type="text" id="headline" placeholder="Johana Kruger">
+      </div>
+      <div class="field">
+        <label for="subheadline">Subtítulo</label>
+        <input type="text" id="subheadline" placeholder="Abogada Penalista en San Pedro y CABA">
+      </div>
+      <button class="admin-btn" id="text-save-btn">Guardar textos</button>
+      <p class="admin-msg" id="text-msg"></p>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { auth, db, CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET, CLOUDINARY_FOLDER } from "/js/firebase-config.js";
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+  import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+  // --- Auth guard ---
+  onAuthStateChanged(auth, (user) => {
+    if (!user) window.location.href = "/admin/login.html";
+  });
+
+  document.getElementById("logout-btn").addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "/admin/login.html";
+  });
+
+  // --- Load current content into the form ---
+  const contentRef = doc(db, "siteContent", "home");
+  (async () => {
+    const snap = await getDoc(contentRef);
+    if (snap.exists()) {
+      const data = snap.data();
+      if (data.heroImageUrl) document.getElementById("hero-preview").src = data.heroImageUrl;
+      if (data.aboutImageUrl) document.getElementById("about-preview").src = data.aboutImageUrl;
+      if (data.heroHeadline) document.getElementById("headline").value = data.heroHeadline;
+      if (data.heroSubheadline) document.getElementById("subheadline").value = data.heroSubheadline;
+    }
+  })();
+
+  // --- Cloudinary unsigned upload helper ---
+  async function uploadToCloudinary(file, folder) {
+    const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    formData.append("folder", folder);
+
+    const res = await fetch(url, { method: "POST", body: formData });
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => ({}));
+      throw new Error(errBody.error?.message || "Error al subir la imagen a Cloudinary.");
+    }
+    const data = await res.json();
+    return data.secure_url;
+  }
+
+  function wireUpload(fileInputId, buttonId, previewId, msgId, field, subfolder) {
+    const btn = document.getElementById(buttonId);
+    const msg = document.getElementById(msgId);
+    btn.addEventListener("click", async () => {
+      const fileInput = document.getElementById(fileInputId);
+      const file = fileInput.files[0];
+      if (!file) {
+        msg.className = "admin-msg error";
+        msg.textContent = "Elegí una imagen primero.";
+        return;
+      }
+      btn.disabled = true;
+      msg.className = "admin-msg";
+      msg.textContent = "Subiendo imagen…";
+      try {
+        const url = await uploadToCloudinary(file, `${CLOUDINARY_FOLDER}/${subfolder}`);
+        document.getElementById(previewId).src = url;
+        await setDoc(contentRef, { [field]: url }, { merge: true });
+        msg.className = "admin-msg ok";
+        msg.textContent = "Imagen publicada. Ya se muestra en el sitio.";
+      } catch (err) {
+        msg.className = "admin-msg error";
+        msg.textContent = err.message || "Ocurrió un error al publicar la imagen.";
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  }
+
+  wireUpload("hero-file", "hero-upload-btn", "hero-preview", "hero-msg", "heroImageUrl", "hero");
+  wireUpload("about-file", "about-upload-btn", "about-preview", "about-msg", "aboutImageUrl", "about");
+
+  document.getElementById("text-save-btn").addEventListener("click", async () => {
+    const msg = document.getElementById("text-msg");
+    const headline = document.getElementById("headline").value.trim();
+    const subheadline = document.getElementById("subheadline").value.trim();
+    try {
+      await setDoc(contentRef, { heroHeadline: headline, heroSubheadline: subheadline }, { merge: true });
+      msg.className = "admin-msg ok";
+      msg.textContent = "Textos guardados.";
+    } catch (err) {
+      msg.className = "admin-msg error";
+      msg.textContent = "No se pudieron guardar los textos.";
+    }
+  });
+</script>
+</body>
+</html>

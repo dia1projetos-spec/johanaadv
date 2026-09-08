@@ -1,0 +1,55 @@
+:root{
+  --a-ink:#17140f;
+  --a-cream:#f4efe4;
+  --a-gold:#c8973f;
+  --a-line:rgba(23,20,15,0.14);
+  --a-muted:#6d6255;
+  --a-danger:#b3392c;
+  --a-ok:#3a7a45;
+}
+*{ box-sizing:border-box; }
+body{
+  margin:0;
+  font-family:'Inter',-apple-system,sans-serif;
+  background:var(--a-cream);
+  color:var(--a-ink);
+}
+.admin-header{
+  background:var(--a-ink); color:#f4efe4;
+  padding:16px 28px; display:flex; align-items:center; justify-content:space-between;
+}
+.admin-header .brand{ font-weight:600; letter-spacing:0.02em; }
+.admin-header button{
+  background:transparent; border:1px solid rgba(244,239,228,0.3); color:#f4efe4;
+  padding:8px 16px; border-radius:6px; cursor:pointer; font-size:0.85rem;
+}
+.admin-wrap{ max-width:520px; margin:80px auto; padding:0 20px; }
+.admin-wrap.wide{ max-width:760px; }
+.admin-card{
+  background:#fff; border:1px solid var(--a-line); border-radius:10px;
+  padding:36px 32px; box-shadow:0 12px 30px rgba(23,20,15,0.06);
+}
+.admin-card h1{ font-size:1.4rem; margin:0 0 6px; }
+.admin-card .sub{ color:var(--a-muted); font-size:0.9rem; margin-bottom:26px; }
+.field{ margin-bottom:18px; }
+.field label{ display:block; font-size:0.85rem; font-weight:600; margin-bottom:6px; }
+.field input, .field textarea{
+  width:100%; padding:11px 13px; border:1px solid var(--a-line); border-radius:6px; font-size:0.95rem; font-family:inherit;
+}
+.admin-btn{
+  width:100%; padding:13px; border:none; border-radius:6px;
+  background:var(--a-gold); color:var(--a-ink); font-weight:600; font-size:0.95rem; cursor:pointer;
+}
+.admin-btn:disabled{ opacity:0.6; cursor:not-allowed; }
+.admin-msg{ font-size:0.85rem; margin-top:14px; min-height:1.2em; }
+.admin-msg.error{ color:var(--a-danger); }
+.admin-msg.ok{ color:var(--a-ok); }
+
+.admin-section{ margin-bottom:40px; }
+.admin-section h2{ font-size:1.1rem; margin-bottom:4px; }
+.admin-section .hint{ color:var(--a-muted); font-size:0.85rem; margin-bottom:16px; }
+.preview-img{
+  width:160px; height:160px; object-fit:cover; border-radius:8px;
+  border:1px solid var(--a-line); background:#eee; display:block; margin-bottom:14px;
+}
+.file-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }

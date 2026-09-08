@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ingresar | Administración — Kruger Johana</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+<div class="admin-wrap">
+  <div class="admin-card">
+    <h1>Área administrativa</h1>
+    <p class="sub">Ingresá con tu cuenta para gestionar las imágenes y textos del sitio.</p>
+    <form id="login-form">
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" autocomplete="current-password" required>
+      </div>
+      <button class="admin-btn" type="submit" id="submit-btn">Ingresar</button>
+      <p class="admin-msg" id="msg"></p>
+    </form>
+  </div>
+</div>
+
+<script type="module">
+  import { auth } from "/js/firebase-config.js";
+  import {
+    signInWithEmailAndPassword,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+  const form = document.getElementById("login-form");
+  const msg = document.getElementById("msg");
+  const btn = document.getElementById("submit-btn");
+
+  // If already logged in, go straight to the dashboard.
+  onAuthStateChanged(auth, (user) => {
+    if (user) window.location.href = "/admin/dashboard.html";
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    msg.textContent = "";
+    msg.className = "admin-msg";
+    btn.disabled = true;
+    btn.textContent = "Ingresando…";
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      window.location.href = "/admin/dashboard.html";
+    } catch (err) {
+      msg.classList.add("error");
+      msg.textContent = "No pudimos iniciar sesión. Verificá el e-mail y la contraseña.";
+      btn.disabled = false;
+      btn.textContent = "Ingresar";
+    }
+  });
+</script>
+</body>
+</html>
