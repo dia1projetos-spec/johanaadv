@@ -90,8 +90,15 @@
 </header>
 
 <main id="main">
-  <!-- HERO -->
-  <section class="hero">
+  <!-- HERO — slideshow de ponta a ponta, admite imagens y/o vídeos -->
+  <section class="hero" id="hero">
+    <div class="hero-slides" id="hero-slides">
+      <!-- Fallback estático (visible sin JS y hasta que Firestore cargue) -->
+      <div class="hero-slide active" data-fallback-slide>
+        <img data-cms="hero-image" src="/assets/johana-kruger-hero.jpg" alt="Johana Kruger, abogada penalista, en su estudio jurídico en San Pedro" width="1600" height="900">
+      </div>
+    </div>
+    <div class="hero-overlay"></div>
     <div class="container">
       <div class="hero-text">
         <p class="hero-eyebrow">ESTUDIO JURÍDICO</p>
@@ -103,11 +110,8 @@
           <a class="btn-ghost-light" href="/sobre-mi.html">Conocé más →</a>
         </div>
       </div>
-      <div class="hero-media">
-        <img data-cms="hero-image" src="/assets/johana-kruger-hero.jpg" alt="Johana Kruger, abogada penalista, en su estudio jurídico en San Pedro" width="900" height="1125">
-        <p class="hero-quote">Tu tranquilidad también es justicia.</p>
-      </div>
     </div>
+    <div class="hero-dots" id="hero-dots"></div>
   </section>
 
   <div class="trust-bar">
@@ -252,6 +256,7 @@
       <span>San Pedro, Buenos Aires</span><span>·</span><span>CABA</span><span>·</span><span>Atención online</span>
     </div>
     <p>Estudio Jurídico Kruger Johana. Todos los derechos reservados © <span data-year></span></p>
+    <a class="footer-admin-link" href="/admin/login.html">·</a>
   </div>
 </footer>
 
@@ -260,6 +265,7 @@
 </a>
 
 <script src="/js/main.js"></script>
+<script type="module" src="/js/hero-slider.js"></script>
 <script type="module" src="/js/site-content.js"></script>
 </body>
 </html>

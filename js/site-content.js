@@ -13,11 +13,6 @@ async function applySiteContent(){
     if(!snap.exists()) return;
     const data = snap.data();
 
-    if(data.heroImageUrl){
-      document.querySelectorAll('[data-cms="hero-image"]').forEach(el=>{
-        el.src = data.heroImageUrl;
-      });
-    }
     if(data.aboutImageUrl){
       document.querySelectorAll('[data-cms="about-image"]').forEach(el=>{
         el.src = data.aboutImageUrl;

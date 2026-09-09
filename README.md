@@ -1,9 +1,19 @@
 # Estudio Jurídico Kruger Johana — site + admin
 
+## 🆕 O que mudou nesta atualização
+
+- **Hero virou slideshow full-bleed** (imagem de ponta a ponta da tela, com transição automática e bolinhas de navegação). Aceita **imagens e vídeos** juntos no mesmo carrossel.
+- **Acesso ao admin discreto**: um "·" quase invisível no rodapé de todas as páginas públicas, linkando pra `/admin/login.html`. Ninguém percebe, só quem sabe procurar.
+- **Painel admin redesenhado**: sidebar com 3 seções (Hero, Quiénes somos, Blog), visual mais profissional, cards e tabelas.
+- **Blog virou dinâmico**: você cria/edita/apaga artigos direto do admin (título, resumo, conteúdo, área, capa em imagem OU vídeo, rascunho/publicado). Cada artigo publicado vira uma página própria em `/blog/post.html?slug=seu-artigo`, com comentários abertos ao público e um cartão de contato via WhatsApp da Dra. Johana.
+- **Upload de vídeo**: tanto no Hero quanto na capa dos artigos, dá pra escolher foto ou vídeo — o Cloudinary detecta sozinho (`/auto/upload`).
+- **Número de WhatsApp real** já configurado: +54 9 3329 33-0625.
+
 Site estático (HTML/CSS/JS puro, sem build step) com:
 - Design seguindo a UX que você enviou (hero preto/dourado, seções creme, tipografia serifada).
 - SEO on-page completo: title/description por página, dados estruturados (Attorney, LegalService x2, Service, FAQPage, BreadcrumbList, Article), sitemap.xml, robots.txt, URLs limpas em espanhol — tudo conforme `Estrategia_SEO_Kruger_Johana.md`.
-- Área `/admin` com login (Firebase Auth) para trocar a foto do hero e da seção "Quiénes somos" sem mexer em código, com upload direto pro Cloudinary.
+- Área `/admin` com login (Firebase Auth) pra gerenciar hero, imagem de "Quiénes somos" e o blog, sem mexer em código.
+
 
 ```
 /
@@ -36,6 +46,7 @@ Como esse Secret já foi exposto neste chat, o mais seguro é: entre em **Cloudi
    - **Folder:** `johana-kruger` (opcional, o código já manda a subpasta certa)
    - Em "Upload Manipulations", limite formatos para `jpg, png, webp` e um tamanho máximo (ex. 10MB), pra evitar abuso.
 4. Salve. Cloud name já está certo no código (`vcpdu2oa`).
+5. **Se for subir vídeos** (no Hero ou na capa de artigos): confirme que o preset não tem nenhuma restrição de "Resource type" só pra imagem — o upload usa o endpoint `/auto/upload`, que detecta sozinho se é foto ou vídeo, mas se o preset estiver travado em "Image only" o vídeo vai falhar. Deixe como "Auto" ou sem restrição de tipo.
 
 > Como o preset é "unsigned", tecnicamente qualquer pessoa que descubra o nome do preset poderia tentar subir uma imagem. Isso é seguro o bastante pro uso real (só você vai divulgar/usar essa URL), mas se quiser reforçar, dá pra criar depois uma Cloudinary Upload Widget signature via Vercel Function — me avisa se quiser evoluir pra isso.
 
@@ -48,11 +59,12 @@ Como esse Secret já foi exposto neste chat, o mais seguro é: entre em **Cloudi
 
 ### 2.2 Firestore
 1. **Build → Firestore Database → Create database** (modo produção, região `southamerica-east1` ou a mais próxima).
-2. Aba **Rules**, cole o conteúdo de `firestore.rules` (já está neste projeto) e publique. Isso garante que:
-   - qualquer visitante pode **ler** o conteúdo do site (hero image etc.),
-   - só quem estiver **logado** (você) pode **escrever/editar**.
+2. Aba **Rules**, cole o conteúdo de `firestore.rules` (já está neste projeto, atualizado com as regras do blog e dos comentários) e publique. Isso garante que:
+   - qualquer visitante pode **ler** o conteúdo do site (hero, about) e os **artigos publicados**,
+   - só quem estiver **logado** (você) pode **escrever/editar/apagar** conteúdo e artigos (inclusive rascunhos),
+   - qualquer visitante pode **comentar** num artigo (sem precisar de login), mas só você pode editar/apagar um comentário.
 
-Não precisa criar nenhum documento manualmente — o próprio painel admin cria `siteContent/home` na primeira vez que você salvar algo.
+Não precisa criar nenhum documento manualmente — o próprio painel admin cria `siteContent/home` e os documentos de `posts/{slug}` na primeira vez que você salvar algo.
 
 ## 3. Rodar localmente
 

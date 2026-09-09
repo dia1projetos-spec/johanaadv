@@ -5,13 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ingresar | Administración — Kruger Johana</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/admin/admin.css">
 </head>
 <body>
-<div class="admin-wrap">
-  <div class="admin-card">
+<div class="admin-login-shell">
+  <div class="login-card">
+    <div class="login-brand">
+      <span class="mark" aria-hidden="true"><span>JK</span></span>
+      <strong>Kruger Johana</strong>
+    </div>
     <h1>Área administrativa</h1>
-    <p class="sub">Ingresá con tu cuenta para gestionar las imágenes y textos del sitio.</p>
+    <p class="sub">Ingresá con tu cuenta para gestionar imágenes, videos y artículos del sitio.</p>
     <form id="login-form">
       <div class="field">
         <label for="email">E-mail</label>
@@ -21,7 +26,7 @@
         <label for="password">Contraseña</label>
         <input type="password" id="password" autocomplete="current-password" required>
       </div>
-      <button class="admin-btn" type="submit" id="submit-btn">Ingresar</button>
+      <button class="admin-btn block" type="submit" id="submit-btn">Ingresar</button>
       <p class="admin-msg" id="msg"></p>
     </form>
   </div>
@@ -38,7 +43,6 @@
   const msg = document.getElementById("msg");
   const btn = document.getElementById("submit-btn");
 
-  // If already logged in, go straight to the dashboard.
   onAuthStateChanged(auth, (user) => {
     if (user) window.location.href = "/admin/dashboard.html";
   });

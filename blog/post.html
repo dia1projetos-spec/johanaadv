@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title id="page-title">Artículo | Estudio Jurídico Kruger Johana</title>
+<meta name="description" id="page-description" content="Artículo del blog del Estudio Jurídico Kruger Johana.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/style.css">
+<style>
+  .post-cover{ width:100%; max-height:420px; object-fit:cover; border-radius:8px; margin-bottom:32px; background:var(--cream-2); }
+  .post-meta{ display:flex; gap:10px; align-items:center; font-size:0.82rem; color:var(--text-muted); margin-bottom:18px; }
+  .post-meta .tag{ background:var(--cream-2); color:var(--gold-dim); padding:3px 10px; border-radius:20px; font-weight:600; }
+  .post-body p{ color:var(--text-muted); margin-top:16px; font-size:1.02rem; }
+  .comments-section{ margin-top:56px; border-top:1px solid var(--line-on-cream); padding-top:36px; }
+  .comment-item{ padding:16px 0; border-bottom:1px solid var(--line-on-cream); }
+  .comment-item .who{ font-weight:600; font-size:0.9rem; }
+  .comment-item .when{ font-size:0.76rem; color:var(--text-muted); margin-left:8px; }
+  .comment-item p{ color:var(--text-muted); margin-top:6px; font-size:0.94rem; }
+  .comment-form{ margin-top:22px; display:grid; gap:12px; max-width:520px; }
+  .comment-form input, .comment-form textarea{
+    width:100%; padding:11px 13px; border:1px solid var(--line-on-cream); border-radius:6px; font-family:inherit; font-size:0.92rem;
+  }
+  .whatsapp-card{
+    background:#e9fbef; border:1px solid #bfe9cc; border-radius:8px;
+    padding:20px; display:flex; align-items:center; gap:14px; margin-top:24px;
+  }
+  .whatsapp-card svg{ color:#219e50; flex:none; }
+  .whatsapp-card a{ font-weight:600; color:#1c8a44; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido</a>
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="brand" aria-label="Inicio — Estudio Jurídico Kruger Johana">
+      <span class="brand-mark" aria-hidden="true"><span>JK</span></span>
+      <span class="brand-name"><strong>Johana Kruger</strong><small>ESTUDIO JURÍDICO</small></span>
+    </a>
+    <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
+      <a href="/">Inicio</a>
+      <a href="/quienes-somos.html">Quiénes somos</a>
+      <a href="/servicios.html">Nuestras áreas de práctica</a>
+      <a href="/sobre-mi.html#por-que-elegirnos">Por qué elegirnos</a>
+      <a href="/contacto.html">Contacto</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-gold" data-whatsapp data-whatsapp-msg="Hola, tengo una consulta sobre un artículo del blog." href="#">Consultá ahora</a>
+      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="container">
+      <p class="breadcrumbs"><a href="/">Inicio</a> / <a href="/blog/">Blog</a> / <span id="crumb-title">Artículo</span></p>
+      <h1 id="post-title">Cargando…</h1>
+    </div>
+  </section>
+
+  <section class="section section-paper">
+    <div class="container two-col">
+      <div class="content-block" id="post-content">
+        <p>Cargando artículo…</p>
+      </div>
+
+      <aside class="sidebar-card">
+        <h3>¿Tenés una consulta sobre esto?</h3>
+        <p>Escribile directamente a la Dra. Johana Kruger por WhatsApp.</p>
+        <div class="whatsapp-card">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4c-1.3 0-2.5-.3-3.6-.8L3 20l1-5.2A8.4 8.4 0 1 1 21 11.5Z"/></svg>
+          <div>
+            <div>+54 9 3329 33-0625</div>
+            <a data-whatsapp data-whatsapp-msg="Hola, tengo una consulta sobre el artículo del blog." href="#">Escribir ahora →</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section-cream">
+    <div class="container" style="max-width:74ch;">
+      <div class="comments-section">
+        <h2 style="font-size:1.3rem;">Comentarios</h2>
+        <div id="comments-list"><p style="color:var(--text-muted);font-size:0.9rem;">Cargando comentarios…</p></div>
+
+        <form class="comment-form" id="comment-form">
+          <input type="text" id="comment-name" placeholder="Tu nombre" required maxlength="80">
+          <textarea id="comment-message" rows="3" placeholder="Escribí tu comentario o consulta…" required maxlength="600"></textarea>
+          <button class="btn btn-gold" type="submit" style="justify-self:start;">Publicar comentario</button>
+          <p class="admin-msg" id="comment-msg" style="font-size:0.82rem;color:var(--text-muted);"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-top">
+    <a href="/" class="brand">
+      <span class="brand-mark" aria-hidden="true"><span>JK</span></span>
+      <span class="brand-name"><strong>Johana Kruger</strong><small>ESTUDIO JURÍDICO</small></span>
+    </a>
+    <nav class="footer-nav" aria-label="Navegación de pie de página">
+      <a href="/">Inicio</a>
+      <a href="/quienes-somos.html">Quiénes somos</a>
+      <a href="/servicios.html">Nuestras áreas de práctica</a>
+      <a href="/sobre-mi.html">Por qué elegirnos</a>
+      <a href="/contacto.html">Contacto</a>
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    <div class="footer-locations"><span>San Pedro, Buenos Aires</span><span>·</span><span>CABA</span><span>·</span><span>Atención online</span></div>
+    <p>Estudio Jurídico Kruger Johana. Todos los derechos reservados © <span data-year></span></p>
+    <a class="footer-admin-link" href="/admin/login.html">·</a>
+  </div>
+</footer>
+<a class="whatsapp-float" data-whatsapp data-whatsapp-msg="Hola, tengo una consulta sobre un artículo del blog." href="#" aria-label="Escribinos por WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4c-1.3 0-2.5-.3-3.6-.8L3 20l1-5.2A8.4 8.4 0 1 1 21 11.5Z"/></svg>
+</a>
+<script src="/js/main.js"></script>
+<script type="module" src="/js/post-page.js"></script>
+</body>
+</html>

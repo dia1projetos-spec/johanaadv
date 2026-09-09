@@ -2,11 +2,32 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Site content (hero image, headline, etc.) — anyone can read,
+    // Site content (hero slides, headline, about image) — anyone can read,
     // only a signed-in user (you, the admin) can write.
     match /siteContent/{docId} {
       allow read: if true;
       allow write: if request.auth != null;
+    }
+
+    // Blog posts — public can read only posts marked "published".
+    // Only a signed-in user (you, the admin) can create/edit/delete posts,
+    // and can read drafts too.
+    match /posts/{postId} {
+      allow read: if resource.data.status == 'published' || request.auth != null;
+      allow write: if request.auth != null;
+
+      // Comments — anyone can read and post a comment (no login needed),
+      // but only the admin can edit/delete (e.g. to remove spam).
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if request.resource.data.name is string
+                      && request.resource.data.name.size() > 0
+                      && request.resource.data.name.size() < 100
+                      && request.resource.data.message is string
+                      && request.resource.data.message.size() > 0
+                      && request.resource.data.message.size() < 800;
+        allow update, delete: if request.auth != null;
+      }
     }
 
     // Block everything else by default.

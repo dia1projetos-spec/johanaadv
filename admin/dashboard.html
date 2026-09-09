@@ -5,145 +5,175 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Administración | Kruger Johana</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/admin/admin.css">
 </head>
 <body>
-<header class="admin-header">
-  <span class="brand">Kruger Johana · Admin</span>
-  <button id="logout-btn">Cerrar sesión</button>
-</header>
-
-<div class="admin-wrap wide">
-  <div class="admin-card">
-    <div class="admin-section">
-      <h2>Imagen del Hero (portada)</h2>
-      <p class="hint">Se usa en la foto grande de la página de inicio. Recomendado: foto vertical, mínimo 900×1125px.</p>
-      <img id="hero-preview" class="preview-img" src="/assets/johana-kruger-hero.jpg" alt="Vista previa de la imagen del hero">
-      <div class="file-row">
-        <input type="file" id="hero-file" accept="image/*">
-        <button class="admin-btn" style="width:auto;padding:10px 20px;" id="hero-upload-btn">Subir y publicar</button>
-      </div>
-      <p class="admin-msg" id="hero-msg"></p>
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="login-brand">
+      <span class="mark" aria-hidden="true"><span>JK</span></span>
+      <strong>Kruger Johana</strong>
     </div>
-
-    <div class="admin-section">
-      <h2>Imagen de "Quiénes somos"</h2>
-      <p class="hint">Se usa en la sección Quiénes somos de la página de inicio.</p>
-      <img id="about-preview" class="preview-img" src="/assets/estatua-justicia.jpg" alt="Vista previa de la imagen de Quiénes somos">
-      <div class="file-row">
-        <input type="file" id="about-file" accept="image/*">
-        <button class="admin-btn" style="width:auto;padding:10px 20px;" id="about-upload-btn">Subir y publicar</button>
-      </div>
-      <p class="admin-msg" id="about-msg"></p>
+    <nav class="admin-nav">
+      <button type="button" class="nav-btn active" data-panel="panel-hero">🖼️ Hero (portada)</button>
+      <button type="button" class="nav-btn" data-panel="panel-about">🏛️ Quiénes somos</button>
+      <button type="button" class="nav-btn" data-panel="panel-blog">📝 Blog / Artículos</button>
+    </nav>
+    <div class="admin-sidebar-footer">
+      <button type="button" id="logout-btn">Cerrar sesión</button>
+      <a href="/" target="_blank">Ver sitio →</a>
     </div>
+  </aside>
 
-    <div class="admin-section">
-      <h2>Textos del Hero</h2>
-      <p class="hint">Título y subtítulo que aparecen en la portada del sitio.</p>
-      <div class="field">
-        <label for="headline">Título</label>
-        <input type="text" id="headline" placeholder="Johana Kruger">
+  <main class="admin-main">
+
+    <!-- ============ PANEL: HERO ============ -->
+    <section class="panel active" id="panel-hero">
+      <div class="admin-topbar">
+        <h1>Hero (portada)</h1>
+        <p>Imágenes y/o videos que rotan en la portada del sitio, de punta a punta de la pantalla.</p>
       </div>
-      <div class="field">
-        <label for="subheadline">Subtítulo</label>
-        <input type="text" id="subheadline" placeholder="Abogada Penalista en San Pedro y CABA">
+
+      <div class="card">
+        <h2>Slides actuales</h2>
+        <p class="card-hint">Se muestran en este orden, con transición automática. Podés reordenar, sacar o agregar.</p>
+        <div class="slide-list" id="slide-list">
+          <p class="empty-state">Cargando…</p>
+        </div>
+
+        <div class="upload-drop">
+          <strong>Agregar imagen o video</strong>
+          <p class="hint" style="margin:0;">Imagen: mínimo 1600×900px. Video: MP4, ideal hasta 15-20 segundos, sin audio (se reproduce muteado en loop).</p>
+          <input type="file" id="slide-file" accept="image/*,video/*">
+          <button class="admin-btn" id="slide-upload-btn">Subir y agregar al hero</button>
+          <p class="progress-text" id="slide-upload-msg"></p>
+        </div>
       </div>
-      <button class="admin-btn" id="text-save-btn">Guardar textos</button>
-      <p class="admin-msg" id="text-msg"></p>
+
+      <div class="card">
+        <h2>Textos del Hero</h2>
+        <div class="field">
+          <label for="headline">Título</label>
+          <input type="text" id="headline" placeholder="Johana Kruger">
+        </div>
+        <div class="field">
+          <label for="subheadline">Subtítulo</label>
+          <input type="text" id="subheadline" placeholder="Abogada Penalista en San Pedro y CABA">
+        </div>
+        <button class="admin-btn" id="text-save-btn">Guardar textos</button>
+        <p class="admin-msg" id="text-msg"></p>
+      </div>
+    </section>
+
+    <!-- ============ PANEL: ABOUT ============ -->
+    <section class="panel" id="panel-about">
+      <div class="admin-topbar">
+        <h1>Quiénes somos</h1>
+        <p>Imagen que aparece en la sección "Quiénes somos" de la página de inicio.</p>
+      </div>
+      <div class="card">
+        <img id="about-preview" class="preview-img" src="/assets/estatua-justicia.jpg" alt="Vista previa">
+        <div class="file-row" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+          <input type="file" id="about-file" accept="image/*">
+          <button class="admin-btn" id="about-upload-btn">Subir y publicar</button>
+        </div>
+        <p class="admin-msg" id="about-msg"></p>
+      </div>
+    </section>
+
+    <!-- ============ PANEL: BLOG ============ -->
+    <section class="panel" id="panel-blog">
+      <div class="admin-topbar">
+        <h1>Blog / Artículos</h1>
+        <p>Cada artículo publicado genera automáticamente su propia página en <code>/blog/post.html?slug=…</code>, con comentarios y contacto por WhatsApp.</p>
+      </div>
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <h2 style="margin:0;">Artículos</h2>
+          <button class="admin-btn small" id="new-post-btn">+ Nuevo artículo</button>
+        </div>
+        <p class="card-hint">Cambios se ven en el sitio apenas guardás (si el estado es "Publicado").</p>
+        <table class="posts-table">
+          <thead>
+            <tr><th>Título</th><th>Área</th><th>Estado</th><th>Fecha</th><th></th></tr>
+          </thead>
+          <tbody id="posts-tbody">
+            <tr><td colspan="5" class="empty-state">Cargando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ MODAL: EDITAR/CREAR ARTÍCULO ============ -->
+<div class="modal-overlay" id="post-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modal-title">Nuevo artículo</h2>
+      <button class="modal-close" id="modal-close-btn" aria-label="Cerrar">×</button>
+    </div>
+    <div class="editor-grid">
+      <div>
+        <div class="field">
+          <label for="post-title">Título</label>
+          <input type="text" id="post-title" placeholder="¿Qué es la excarcelación?">
+        </div>
+        <div class="field">
+          <label for="post-slug">URL (slug)</label>
+          <input type="text" id="post-slug" placeholder="que-es-la-excarcelacion">
+          <p class="hint">Se genera solo a partir del título. Podés editarla si querés.</p>
+        </div>
+        <div class="field">
+          <label for="post-excerpt">Resumen (para la lista del blog)</label>
+          <textarea id="post-excerpt" rows="2" placeholder="Una o dos líneas que resuman el artículo."></textarea>
+        </div>
+        <div class="field">
+          <label for="post-body">Contenido</label>
+          <textarea id="post-body" rows="12" placeholder="Escribí el artículo. Dejá una línea en blanco entre párrafos."></textarea>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label for="post-area">Área relacionada</label>
+          <select id="post-area">
+            <option>Derecho Penal</option>
+            <option>Derechos Reales</option>
+            <option>Sucesiones</option>
+            <option>Contratos</option>
+            <option>Registración de Marcas</option>
+            <option>Mala Praxis</option>
+            <option>General</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Imagen o video de portada</label>
+          <img id="post-cover-preview" class="preview-img" style="display:none;" alt="Portada">
+          <video id="post-cover-preview-video" class="preview-img" style="display:none;" muted loop autoplay playsinline></video>
+          <input type="file" id="post-cover-file" accept="image/*,video/*">
+          <button class="admin-btn ghost small" id="post-cover-upload-btn" type="button" style="margin-top:8px;">Subir portada</button>
+          <p class="admin-msg" id="post-cover-msg"></p>
+        </div>
+        <div class="field">
+          <label for="post-status">Estado</label>
+          <select id="post-status">
+            <option value="draft">Borrador (no visible en el sitio)</option>
+            <option value="published">Publicado</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <p class="admin-msg" id="post-save-msg"></p>
+    <div class="modal-footer">
+      <button class="admin-btn danger" id="post-delete-btn" style="display:none; margin-right:auto;">Eliminar artículo</button>
+      <button class="admin-btn ghost" id="post-cancel-btn">Cancelar</button>
+      <button class="admin-btn" id="post-save-btn">Guardar</button>
     </div>
   </div>
 </div>
 
-<script type="module">
-  import { auth, db, CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET, CLOUDINARY_FOLDER } from "/js/firebase-config.js";
-  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-  import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
-
-  // --- Auth guard ---
-  onAuthStateChanged(auth, (user) => {
-    if (!user) window.location.href = "/admin/login.html";
-  });
-
-  document.getElementById("logout-btn").addEventListener("click", async () => {
-    await signOut(auth);
-    window.location.href = "/admin/login.html";
-  });
-
-  // --- Load current content into the form ---
-  const contentRef = doc(db, "siteContent", "home");
-  (async () => {
-    const snap = await getDoc(contentRef);
-    if (snap.exists()) {
-      const data = snap.data();
-      if (data.heroImageUrl) document.getElementById("hero-preview").src = data.heroImageUrl;
-      if (data.aboutImageUrl) document.getElementById("about-preview").src = data.aboutImageUrl;
-      if (data.heroHeadline) document.getElementById("headline").value = data.heroHeadline;
-      if (data.heroSubheadline) document.getElementById("subheadline").value = data.heroSubheadline;
-    }
-  })();
-
-  // --- Cloudinary unsigned upload helper ---
-  async function uploadToCloudinary(file, folder) {
-    const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-    formData.append("folder", folder);
-
-    const res = await fetch(url, { method: "POST", body: formData });
-    if (!res.ok) {
-      const errBody = await res.json().catch(() => ({}));
-      throw new Error(errBody.error?.message || "Error al subir la imagen a Cloudinary.");
-    }
-    const data = await res.json();
-    return data.secure_url;
-  }
-
-  function wireUpload(fileInputId, buttonId, previewId, msgId, field, subfolder) {
-    const btn = document.getElementById(buttonId);
-    const msg = document.getElementById(msgId);
-    btn.addEventListener("click", async () => {
-      const fileInput = document.getElementById(fileInputId);
-      const file = fileInput.files[0];
-      if (!file) {
-        msg.className = "admin-msg error";
-        msg.textContent = "Elegí una imagen primero.";
-        return;
-      }
-      btn.disabled = true;
-      msg.className = "admin-msg";
-      msg.textContent = "Subiendo imagen…";
-      try {
-        const url = await uploadToCloudinary(file, `${CLOUDINARY_FOLDER}/${subfolder}`);
-        document.getElementById(previewId).src = url;
-        await setDoc(contentRef, { [field]: url }, { merge: true });
-        msg.className = "admin-msg ok";
-        msg.textContent = "Imagen publicada. Ya se muestra en el sitio.";
-      } catch (err) {
-        msg.className = "admin-msg error";
-        msg.textContent = err.message || "Ocurrió un error al publicar la imagen.";
-      } finally {
-        btn.disabled = false;
-      }
-    });
-  }
-
-  wireUpload("hero-file", "hero-upload-btn", "hero-preview", "hero-msg", "heroImageUrl", "hero");
-  wireUpload("about-file", "about-upload-btn", "about-preview", "about-msg", "aboutImageUrl", "about");
-
-  document.getElementById("text-save-btn").addEventListener("click", async () => {
-    const msg = document.getElementById("text-msg");
-    const headline = document.getElementById("headline").value.trim();
-    const subheadline = document.getElementById("subheadline").value.trim();
-    try {
-      await setDoc(contentRef, { heroHeadline: headline, heroSubheadline: subheadline }, { merge: true });
-      msg.className = "admin-msg ok";
-      msg.textContent = "Textos guardados.";
-    } catch (err) {
-      msg.className = "admin-msg error";
-      msg.textContent = "No se pudieron guardar los textos.";
-    }
-  });
-</script>
+<script type="module" src="/admin/admin.js"></script>
 </body>
 </html>

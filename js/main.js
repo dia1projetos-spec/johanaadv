@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // WhatsApp CTAs: build wa.me links from data-whatsapp-msg attribute
-  const WHATSAPP_NUMBER = "5491100000000"; // TODO: reemplazar por el número real, con código de país, sin "+"
+  const WHATSAPP_NUMBER = "5493329330625"; // +54 9 3329 33-0625
   document.querySelectorAll("[data-whatsapp]").forEach(el => {
     const msg = el.getAttribute("data-whatsapp-msg") || "Hola, quisiera hacer una consulta legal.";
     el.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
