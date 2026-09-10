@@ -19,6 +19,7 @@
       <button type="button" class="nav-btn active" data-panel="panel-hero">🖼️ Hero (portada)</button>
       <button type="button" class="nav-btn" data-panel="panel-about">🏛️ Quiénes somos</button>
       <button type="button" class="nav-btn" data-panel="panel-blog">📝 Blog / Artículos</button>
+      <button type="button" class="nav-btn" data-panel="panel-messages">✉️ Mensajes <span id="messages-badge" style="display:none;background:var(--a-gold);color:var(--a-ink);font-size:0.68rem;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:6px;"></span></button>
     </nav>
     <div class="admin-sidebar-footer">
       <button type="button" id="logout-btn">Cerrar sesión</button>
@@ -100,6 +101,24 @@
           </thead>
           <tbody id="posts-tbody">
             <tr><td colspan="5" class="empty-state">Cargando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ PANEL: MENSAJES ============ -->
+    <section class="panel" id="panel-messages">
+      <div class="admin-topbar">
+        <h1>Mensajes</h1>
+        <p>Consultas enviadas desde el formulario de la página de Contacto.</p>
+      </div>
+      <div class="card">
+        <table class="posts-table">
+          <thead>
+            <tr><th>Nombre</th><th>Contacto</th><th>Área</th><th>Mensaje</th><th>Fecha</th><th></th></tr>
+          </thead>
+          <tbody id="messages-tbody">
+            <tr><td colspan="6" class="empty-state">Cargando…</td></tr>
           </tbody>
         </table>
       </div>

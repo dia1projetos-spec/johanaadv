@@ -2,7 +2,7 @@
 import { auth, db, CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET, CLOUDINARY_FOLDER } from "/js/firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import {
-  doc, getDoc, setDoc, collection, getDocs, deleteDoc, serverTimestamp
+  doc, getDoc, setDoc, collection, getDocs, deleteDoc, updateDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 /* ---------------- Auth guard ---------------- */
@@ -332,3 +332,57 @@ document.getElementById("post-save-btn").addEventListener("click", async () => {
 /* ---------------- Init ---------------- */
 loadHeroPanel();
 loadPosts();
+loadMessages();
+
+/* ================================================================
+   CONTACT MESSAGES
+   ================================================================ */
+const messagesCol = collection(db, "contactMessages");
+
+async function loadMessages() {
+  const tbody = document.getElementById("messages-tbody");
+  const badge = document.getElementById("messages-badge");
+  tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Cargando…</td></tr>`;
+  const snap = await getDocs(messagesCol);
+  let msgs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  msgs.sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
+
+  const unread = msgs.filter(m => !m.leido).length;
+  if (unread > 0) {
+    badge.style.display = "inline-block";
+    badge.textContent = unread;
+  } else {
+    badge.style.display = "none";
+  }
+
+  if (!msgs.length) {
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Todavía no llegaron mensajes.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = "";
+  msgs.forEach(m => {
+    const tr = document.createElement("tr");
+    if (!m.leido) tr.style.fontWeight = "600";
+    const date = m.createdAtMs ? new Date(m.createdAtMs).toLocaleString("es-AR") : "—";
+    tr.innerHTML = `
+      <td>${m.nombre || "—"}</td>
+      <td>${m.email || ""}<br><span style="color:var(--a-muted);font-weight:400;">${m.telefono || ""}</span></td>
+      <td>${m.area || "—"}</td>
+      <td style="max-width:280px;font-weight:400;">${(m.mensaje || "").slice(0, 140)}${(m.mensaje || "").length > 140 ? "…" : ""}</td>
+      <td style="font-weight:400;">${date}</td>
+      <td class="table-actions">
+        <button data-act="toggle">${m.leido ? "Marcar no leído" : "Marcar leído"}</button>
+        <button data-act="del" class="danger">Eliminar</button>
+      </td>`;
+    tr.querySelector('[data-act="toggle"]').addEventListener("click", async () => {
+      await updateDoc(doc(db, "contactMessages", m.id), { leido: !m.leido });
+      loadMessages();
+    });
+    tr.querySelector('[data-act="del"]').addEventListener("click", async () => {
+      if (!confirm("¿Eliminar este mensaje?")) return;
+      await deleteDoc(doc(db, "contactMessages", m.id));
+      loadMessages();
+    });
+    tbody.appendChild(tr);
+  });
+}

@@ -30,6 +30,18 @@ service cloud.firestore {
       }
     }
 
+    // Contact form submissions — anyone can send one (no login needed),
+    // but only the admin can read/manage the inbox.
+    match /contactMessages/{messageId} {
+      allow create: if request.resource.data.nombre is string
+                    && request.resource.data.nombre.size() > 0
+                    && request.resource.data.email is string
+                    && request.resource.data.mensaje is string
+                    && request.resource.data.mensaje.size() > 0
+                    && request.resource.data.mensaje.size() < 3000;
+      allow read, update, delete: if request.auth != null;
+    }
+
     // Block everything else by default.
     match /{document=**} {
       allow read, write: if false;

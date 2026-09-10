@@ -3,11 +3,16 @@
 ## 🆕 O que mudou nesta atualização
 
 - **Hero virou slideshow full-bleed** (imagem de ponta a ponta da tela, com transição automática e bolinhas de navegação). Aceita **imagens e vídeos** juntos no mesmo carrossel.
-- **Acesso ao admin discreto**: um "·" quase invisível no rodapé de todas as páginas públicas, linkando pra `/admin/login.html`. Ninguém percebe, só quem sabe procurar.
-- **Painel admin redesenhado**: sidebar com 3 seções (Hero, Quiénes somos, Blog), visual mais profissional, cards e tabelas.
+- **Acesso ao admin discreto**: um "adm" pequeno e apagado no rodapé de todas as páginas públicas, linkando pra `/admin/login.html`.
+- **Painel admin redesenhado**: sidebar com 4 seções (Hero, Quiénes somos, Blog, Mensajes), visual mais profissional, cards e tabelas.
 - **Blog virou dinâmico**: você cria/edita/apaga artigos direto do admin (título, resumo, conteúdo, área, capa em imagem OU vídeo, rascunho/publicado). Cada artigo publicado vira uma página própria em `/blog/post.html?slug=seu-artigo`, com comentários abertos ao público e um cartão de contato via WhatsApp da Dra. Johana.
 - **Upload de vídeo**: tanto no Hero quanto na capa dos artigos, dá pra escolher foto ou vídeo — o Cloudinary detecta sozinho (`/auto/upload`).
 - **Número de WhatsApp real** já configurado: +54 9 3329 33-0625.
+- **Animações de scroll**: títulos, cards e blocos de texto aparecem com um fade + leve deslocamento conforme você rola a página (respeitando configurações de acessibilidade do usuário).
+- **Preloader elegante** na home: mostra "Johana Kruger" com uma animação sutil antes do site aparecer.
+- **Imagem de "Quiénes somos" corrigida**: a página `/quienes-somos.html` agora também reflete a imagem publicada no admin (antes só a seção da home puxava certo).
+- **Mensagens do formulário de contato** agora são salvas no Firestore e aparecem num painel novo em `/admin` (aba "Mensajes"), com opção de marcar como lido e apagar.
+- ⚠️ **Se o blog estava dando "sem permissão" ao salvar**: é porque as regras do Firestore no seu console ainda são as antigas. Repita o passo 2.2 abaixo com as regras atualizadas (agora incluem `posts`, `comments` e `contactMessages`).
 
 Site estático (HTML/CSS/JS puro, sem build step) com:
 - Design seguindo a UX que você enviou (hero preto/dourado, seções creme, tipografia serifada).
